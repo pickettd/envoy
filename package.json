@@ -57,7 +57,7 @@
     "envoy": "./bin/www"
   },
   "engines": {
-    "node": ">=4.2.0"
+    "node": "4.8.4"
   },
   "main": "app.js"
 }
