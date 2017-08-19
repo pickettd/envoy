@@ -66,14 +66,14 @@ module.exports = function(opts) {
     // session support
     if (opts && opts.sessionHandler) {
       app.use(opts.sessionHandler)
-    } else {
+    } /*else {
       console.log('[OK]  Using default session handler');
       app.use(session({ 
         secret: app.metaKey,
         resave: true,
         saveUninitialized: true
       }));
-    }
+    }*/
 
     // plug in custom routes
     if (app.opts.router) {
