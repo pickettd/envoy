@@ -13,10 +13,21 @@ module.exports = function(opts) {
     ee = new events.EventEmitter(),
     auth = require('./lib/auth'),
     morgan = require('morgan'),
-    cors = require('./lib/cors'); 
+    cors = require('./lib/cors'),
+    RedisStore = require('connect-redis')(session);
 
   // Required environment variables
   app.opts = require('./lib/env').getCredentials(opts);
+  var options = {
+    url: process.env.REDIS_URL || ''
+  };
+  var sessionHandler = null;
+  if (options.url !== '') {
+    sessionHandler = session({
+      store: new RedisStore(options),
+      secret: 'oh my secrets'
+    });
+  }
 
   var cloudant = new Cloudant(app.opts.couchHost),
     dbName = app.dbName = app.opts.databaseName;
@@ -64,8 +75,8 @@ module.exports = function(opts) {
     app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 
     // session support
-    if (opts && opts.sessionHandler) {
-      app.use(opts.sessionHandler)
+    if (sessionHandler) {
+      app.use(sessionHandler)
     } else {
       console.log('[OK]  Using default session handler');
       app.use(session({ 
