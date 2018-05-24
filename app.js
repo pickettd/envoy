@@ -73,11 +73,11 @@ module.exports = function(opts) {
     app.use(compression());
 
     app.use(bodyParser.json({ limit: '500mb'}));
-    app.use(bodyParser.urlencoded({ extended: false, limit: '500mb' }));
+    app.use(bodyParser.urlencoded({ extended: true, limit: '500mb' }));
 
     // session support
     if (sessionHandler) {
-      app.use(sessionHandler)
+      app.use(sessionHandler);
     } else {
       console.log('[OK]  Using default session handler');
       app.use(session({ 
@@ -98,7 +98,7 @@ module.exports = function(opts) {
 
     // Catch unknown paths
     app.use(function(req, res, next) {
-      res.status(400).send({error: 'bad_request', reason: 'unknown path'})
+      res.status(400).send({error: 'bad_request', reason: 'unknown path'});
     });
 
     // Error handlers
@@ -139,7 +139,7 @@ module.exports = function(opts) {
     }
   );
 
-  require("cf-deployment-tracker-client").track();
+  require('cf-deployment-tracker-client').track();
 
   return app;
 };
