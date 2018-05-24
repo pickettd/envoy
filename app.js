@@ -72,6 +72,17 @@ module.exports = function(opts) {
     // gzip responses
     app.use(compression());
 
+    app.use(function logJsonParseError(err, req, res, next) {
+      if (err.status === 413 && err.body) {
+        // Display extra information for JSON parses
+        console.log('413 body parser error!');
+        console.log(req.method + ' ' + req.url);
+        console.log(err.body.slice(0, 100).toString());
+      }
+
+      next(err);
+    });
+
     app.use(bodyParser.json({ limit: '500mb'}));
     app.use(bodyParser.urlencoded({ extended: true, limit: '500mb' }));
 
