@@ -71,7 +71,7 @@ module.exports = function(opts) {
     // gzip responses
     app.use(compression());
 
-    app.use(bodyParser.json({ limit: '50mb'}));
+    app.use(bodyParser.json({ limit: '500mb'}));
     app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 
     // session support
