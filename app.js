@@ -27,6 +27,7 @@ module.exports = function(opts) {
       store: new RedisStore(options),
       secret: 'oh my secrets'
     });
+    console.log('Using redis session handler');
   }
 
   var cloudant = new Cloudant(app.opts.couchHost),
@@ -72,7 +73,7 @@ module.exports = function(opts) {
     app.use(compression());
 
     app.use(bodyParser.json({ limit: '500mb'}));
-    app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
+    app.use(bodyParser.urlencoded({ extended: false, limit: '500mb' }));
 
     // session support
     if (sessionHandler) {
