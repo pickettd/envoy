@@ -31,13 +31,16 @@ module.exports = function(opts) {
   }
 
   var cloudant = new Cloudant(app.opts.couchHost),
+    couchBackup = new Cloudant(app.opts.backupHost),
     dbName = app.dbName = app.opts.databaseName;
 
   app.db = cloudant.db.use(dbName);
+  app.backupdb = couchBackup.db.use(dbName);
   app.usersdb = cloudant.db.use('_users');
   app.metaKey = 'com_cloudant_meta';
   app.events = ee;
   app.cloudant = cloudant;
+  app.couchBackup = couchBackup;
   app.serverURL = app.opts.couchHost;
   app.auth = auth;
 
